@@ -1,31 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Ionic App</title>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Aplicación con GPS y Cámara</title>
 
-    <base href="/" />
+<style>
+body{
+    background-color:#cfefff;
+    font-family:Arial;
+    text-align:center;
+    padding:40px;
+}
 
-    <meta name="color-scheme" content="light dark" />
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
+h1{
+    color:#333;
+}
 
-    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+button{
+    padding:10px 20px;
+    font-size:16px;
+    margin:10px;
+    cursor:pointer;
+}
 
-    <!-- add to homescreen for ios -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Ionic App" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  </head>
+#video{
+    margin-top:20px;
+    border:3px solid #333;
+}
+</style>
+</head>
 
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<body>
 
+<h1>Aplicación usando Hardware del Dispositivo</h1>
+
+<h2>Ubicación GPS</h2>
+
+<button onclick="obtenerUbicacion()">Obtener mi ubicación</button>
+
+<p id="ubicacion"></p>
+
+
+<h2>Cámara del dispositivo</h2>
+
+<button onclick="abrirCamara()">Abrir cámara</button>
+
+<br><br>
+
+<video id="video" width="400" autoplay></video>
+
+
+<script>
+
+function obtenerUbicacion() {
+
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(function(posicion) {
+
+            document.getElementById("ubicacion").innerHTML =
+            "Latitud: " + posicion.coords.latitude +
+            "<br>Longitud: " + posicion.coords.longitude;
+
+        });
+
+    } else {
+
+        document.getElementById("ubicacion").innerHTML = "GPS no disponible";
+
+    }
+
+}
+
+
+function abrirCamara() {
+
+navigator.mediaDevices.getUserMedia({ video: true })
+
+.then(function(stream){
+
+document.getElementById("video").srcObject = stream;
+
+})
+
+.catch(function(error){
+
+console.log("Error al acceder a la cámara:", error);
+
+});
+
+}
+
+</script>
+
+</body>
 </html>
-
